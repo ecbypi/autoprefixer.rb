@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "autoprefixer": "^10.0.0",
+    "js-yaml": "^3.14.0"
+  }
+}
