@@ -1,0 +1,38 @@
+- description: query composition with AND operator
+  assertions:
+    - actual:
+        - 'ie >= 6, ie <= 7'
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+        - ie 8
+        - ie 7
+        - ie 6
+        - ie 5.5
+    - actual:
+        - ie >= 6 and ie <= 7
+      expected:
+        - ie 7
+        - ie 6
+    - actual:
+        - ie < 11 and not ie 7
+      expected:
+        - ie 10
+        - ie 9
+        - ie 8
+        - ie 6
+        - ie 5.5
+- description: correctly works with not and one-version browsers as AND query
+  assertions:
+    - actual:
+        - last 1 Baidu version and not <2% in AT
+      expected: 0
+- description: reads config from package.json
+  assertions:
+    - actual:
+        - null
+        - path: PACKAGE
+      expected:
+        - ie 10
+        - ie 9

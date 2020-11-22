@@ -1,0 +1,47 @@
+- description: selects versions of each browser
+  assertions:
+    - actual:
+        - last 2 versions
+      expected:
+        - android 67
+        - bb 8
+        - chrome 39
+        - chrome 38
+        - edge 12
+        - ie 11
+        - ie 10
+- description: has special logic for android
+  assertions:
+    - actual:
+        - last 31 versions
+      expected:
+        - android 67
+        - android 4.4.3-4.4.4
+        - bb 8
+        - chrome 39
+        - chrome 38
+        - chrome 37
+        - edge 12
+        - ie 11
+        - ie 10
+        - ie 9
+- description: supports pluralization
+  assertions:
+    - actual:
+        - last 1 version
+      expected:
+        - android 67
+        - bb 8
+        - chrome 39
+        - edge 12
+        - ie 11
+- description: is case insensitive
+  assertions:
+    - actual:
+        - Last 01 Version
+      expected:
+        - android 67
+        - bb 8
+        - chrome 39
+        - edge 12
+        - ie 11

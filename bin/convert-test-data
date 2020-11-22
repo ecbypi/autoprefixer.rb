@@ -1,0 +1,184 @@
+#!/usr/bin/env node
+
+const fs = require("fs")
+const esprima = require("esprima")
+const yaml = require("js-yaml")
+const path = require("path")
+
+const browserslistTestsPath = path.normalize(path.join(__dirname, "..", "..", "browserslist", "test"))
+
+const browserslistTestsDirectory = fs.opendirSync(browserslistTestsPath)
+
+const outputDirectoryPath = path.normalize(path.join(__dirname, "..", "test", "assertions"))
+
+if ( ! fs.existsSync(outputDirectoryPath) ) {
+  fs.mkdir(outputDirectoryPath, function() {})
+}
+
+const IGNORE = [
+  "cache.test.js",
+  "cli.test.js",
+  "config.test.js",
+  "main.test.js",
+  "node.test.js",
+  "defaults.test.js"
+]
+
+while ( testFile = browserslistTestsDirectory.readSync() ) {
+  // Ignore if it isn't a test file
+  if ( ! testFile.name.match(/\.test\.js$/) ) {
+    continue
+  }
+
+  // Ignore if it's on our blacklist of tests that are too different to convert
+  if ( IGNORE.includes(testFile.name) ) {
+    continue
+  }
+
+  let tests = []
+  let testFileContents = fs.readFileSync(path.join(browserslistTestsDirectory.path, testFile.name), 'utf8')
+  let ast = esprima.parse(testFileContents, { loc: true, tokens: true })
+
+  ast.body.forEach(function(bodyNode) {
+    let isItCall = bodyNode.type === "ExpressionStatement" &&
+      bodyNode.expression.type === "CallExpression" &&
+      bodyNode.expression.callee.type === "Identifier" &&
+      bodyNode.expression.callee.name === "it"
+
+    if ( isItCall ) {
+      testBody = bodyNode.expression.arguments[1].body.body
+
+      let testData = {
+        description: bodyNode.expression.arguments[0].value,
+        assertions: []
+      }
+
+      testBody.forEach(function(testNode, index) {
+        // It is a test assertion if
+        //
+        // * It is a function call (CallExpression)
+        // * (I think) The function is the property of another object (MemberExpression)
+        // * The other object is itself a function call (CallExpression)
+        // * The name of the function is "expect"
+        let isAssertionExpression = testNode.type === "ExpressionStatement" &&
+          testNode.expression.type === "CallExpression" &&
+          testNode.expression.callee.type === "MemberExpression" &&
+          testNode.expression.callee.object.type === "CallExpression" &&
+          testNode.expression.callee.object.callee.type === "Identifier" &&
+          testNode.expression.callee.object.callee.name === "expect"
+
+        if ( isAssertionExpression ) {
+          let assertionNode = testNode.expression
+          let expectedObjectNode = assertionNode.callee.object.arguments[0]
+
+          // Is a `browserslist()` call if:
+          //
+          // * It is a function call (CallExpression)
+          // * The function is an named object (Identifier)
+          // * The name of the object is "browserslist"
+          let isBrowserslistCall = expectedObjectNode.type === "CallExpression" &&
+            expectedObjectNode.callee.type === "Identifier" &&
+            expectedObjectNode.callee.name === "browserslist"
+
+          if ( isBrowserslistCall ) {
+            let browserslistCallArguments = expectedObjectNode.arguments.map(function(node) {
+              return extractNodeValue(node, testBody)
+            })
+
+            let assertionValue = extractNodeValue(assertionNode.arguments[0], testBody)
+
+            testData.assertions.push({
+              actual: browserslistCallArguments,
+              expected: assertionValue
+            })
+          }
+        }
+      })
+
+      tests.push(testData)
+    }
+  })
+
+  let yamlFilename = testFile.name.replace(/\.test\.js$/, "_test.yml")
+  let outputFilePath = path.join(outputDirectoryPath, yamlFilename)
+
+  fs.writeFileSync(outputFilePath, yaml.dump(tests, { noRefs: true, condenseFlow: false }))
+}
+
+function extractNodeValue(node, testBody) {
+  let value
+
+  switch ( node.type ) {
+    case "ArrayExpression":
+      value = node.elements.map(function(node) { return node.value })
+      break
+
+    case "Identifier":
+      if ( node.name === "undefined" || node.name === "null" ) {
+        value = null
+      } else {
+        let variableName = node.name
+        let variableValueNode
+        let searchIndex = 0
+
+        while ( ! variableValueNode && searchIndex < testBody.length ) {
+          if ( testBody[searchIndex].type === "VariableDeclaration" ) {
+            let matchingDeclaration = testBody[searchIndex].declarations.find(function(declaration) {
+              return declaration.id.name === variableName
+            })
+
+            if ( matchingDeclaration ) {
+              variableValueNode = matchingDeclaration.init
+            }
+          }
+
+          ++searchIndex
+        }
+
+        if ( variableValueNode ) {
+          value = extractNodeValue(variableValueNode)
+        } else {
+          debugger
+          throw new Error(`Could not find variable declaration for ${variableName}`)
+        }
+      }
+
+      break
+
+    case "Literal":
+      value = node.value
+      break
+
+    case "CallExpression":
+      let callData = {}
+      callData.arguments = node.arguments.map(function(argument) { return extractNodeValue(argument) })
+
+      // NOTE: Consider extracting helper function for this
+      if ( node.callee.type === "Identifier" && node.callee.name === "browserslist" ) {
+        callData.function = "browserslist"
+      } else {
+        debugger
+        throw new Error(`Don't know how to unpack CallExpression ${node}`)
+      }
+
+      value = callData
+
+      break
+
+    case "ObjectExpression":
+      value = node.properties.reduce(function(object, property) {
+        object[property.key.name] = property.value.name
+
+        return object
+      }, {})
+
+      break
+
+    default:
+      debugger
+      throw new Error(`Don't know how to extract value from ${node.type} ${node}`)
+      break
+  }
+
+  return value
+}

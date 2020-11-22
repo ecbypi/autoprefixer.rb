@@ -1,0 +1,29 @@
+- description: selects versions released on year boundaries
+  assertions:
+    - actual:
+        - since 1970
+      expected:
+        - ie 3
+        - ie 2
+        - ie 1
+- description: is case insensitive
+  assertions:
+    - actual:
+        - Since 1970
+      expected:
+        - ie 3
+        - ie 2
+        - ie 1
+- description: selects versions released on year and month boundaries
+  assertions:
+    - actual:
+        - since 2017-01
+      expected:
+        - ie 3
+        - ie 2
+- description: selects versions released on date boundaries
+  assertions:
+    - actual:
+        - since 2017-02-01
+      expected:
+        - ie 3

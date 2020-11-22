@@ -1,0 +1,28 @@
+- description: selects a range of browsers
+  assertions:
+    - actual:
+        - ie 8-10
+      expected:
+        - ie 10
+        - ie 9
+        - ie 8
+- description: selects versions with query out of range
+  assertions:
+    - actual:
+        - ie 1-12
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+        - ie 8
+- description: selects a range of android browsers
+  assertions:
+    - actual:
+        - android 4.3-37
+      expected:
+        - android 37
+        - android 4.4.3-4.4.4
+        - android 4.4
+        - android 4.2-4.3
+- description: raises on an unknown browser
+  assertions: []

@@ -1,0 +1,20 @@
+- description: converts PhantomJS to Safari
+  assertions:
+    - actual:
+        - phantomjs 2.1
+      expected:
+        - safari 6
+    - actual:
+        - phantomjs 1.9
+      expected:
+        - safari 5
+- description: supports case insensitive PhantomJS name
+  assertions:
+    - actual:
+        - PhantomJS 2.1
+      expected:
+        - safari 6
+    - actual:
+        - PhantomJS 1.9
+      expected:
+        - safari 5

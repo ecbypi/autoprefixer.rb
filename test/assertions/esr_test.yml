@@ -1,0 +1,22 @@
+- description: selects Firefox ESR
+  assertions: []
+- description: uses case insensitive aliases
+  assertions:
+    - actual:
+        - firefox esr
+      expected:
+        arguments:
+          - Firefox ESR
+        function: browserslist
+    - actual:
+        - ff esr
+      expected:
+        arguments:
+          - Firefox ESR
+        function: browserslist
+    - actual:
+        - fx esr
+      expected:
+        arguments:
+          - Firefox ESR
+        function: browserslist

@@ -1,0 +1,59 @@
+- description: selects browser by more sign
+  assertions:
+    - actual:
+        - ie > 9
+      expected:
+        - ie 11
+        - ie 10
+- description: selects browser by more or equal sign
+  assertions:
+    - actual:
+        - ie >= 10
+      expected:
+        - ie 11
+        - ie 10
+- description: selects browser by less sign
+  assertions:
+    - actual:
+        - ie < 10
+      expected:
+        - ie 9
+        - ie 8
+- description: selects browser by less or equal sign
+  assertions:
+    - actual:
+        - ie <= 9
+      expected:
+        - ie 9
+        - ie 8
+- description: uses case insensitive aliases
+  assertions:
+    - actual:
+        - Explorer > 10
+      expected:
+        - ie 11
+- description: raises on unknown browser
+  assertions: []
+- description: works with joined versions from Can I Use
+  assertions:
+    - actual:
+        - android >= 4.2
+      expected:
+        - android 4.2-4.3
+    - actual:
+        - android >= 4.3
+      expected:
+        - android 4.2-4.3
+- description: allows omission of the space around the operator
+  assertions:
+    - actual:
+        - ie<=9
+      expected:
+        - ie 9
+        - ie 8
+- description: selects browser with one version
+  assertions:
+    - actual:
+        - and_qq > 0
+      expected:
+        - and_qq 1.2

@@ -1,0 +1,12 @@
+- description: selects opera mini
+  assertions:
+    - actual:
+        - op_mini all
+      expected:
+        - op_mini all
+- description: selects opera mini case insensitive
+  assertions:
+    - actual:
+        - OperaMini All
+      expected:
+        - op_mini all

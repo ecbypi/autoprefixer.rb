@@ -1,0 +1,42 @@
+- description: adds at least one browser
+  assertions:
+    - actual:
+        - cover 1% in my stats
+      expected:
+        - ie 11
+- description: global coverage
+  assertions:
+    - actual:
+        - cover 0.1%
+      expected:
+        - ie 5
+- description: country coverage
+  assertions:
+    - actual:
+        - cover 0.1% in US
+      expected:
+        - ie 9
+- description: country coverage alt
+  assertions:
+    - actual:
+        - cover 0.1% in alt-us
+      expected:
+        - ie 8
+- description: adds browsers by popularity
+  assertions:
+    - actual:
+        - cover 20% in my stats
+      expected:
+        - chrome 37
+        - chrome 36
+        - ie 11
+        - ie 10
+- description: does not add zero-popularity
+  assertions:
+    - actual:
+        - cover 20% in my stats
+        - stats: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - ie 11
+- description: throws error on no stats
+  assertions: []

@@ -1,0 +1,115 @@
+- description: selects browser by name
+  assertions:
+    - actual:
+        - ie 10
+      expected:
+        - ie 10
+- description: uses case insensitive aliases
+  assertions:
+    - actual:
+        - Explorer 10
+      expected:
+        arguments:
+          - ie 10
+        function: browserslist
+    - actual:
+        - IE 10
+      expected:
+        arguments:
+          - ie 10
+        function: browserslist
+- description: raises on unknown name
+  assertions: []
+- description: raises on unknown version
+  assertions: []
+- description: uses right browser name in error
+  assertions: []
+- description: ignores unknown versions on request
+  assertions:
+    - actual:
+        - 'IE 1, IE 9'
+        - ignoreUnknownVersions: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - ie 9
+- description: works with joined versions from Can I Use
+  assertions:
+    - actual:
+        - ios 7.0
+      expected:
+        - ios_saf 7.0-7.1
+    - actual:
+        - ios 7.1
+      expected:
+        - ios_saf 7.0-7.1
+- description: allows to miss zero in version
+  assertions:
+    - actual:
+        - ios 7
+      expected:
+        - ios_saf 7.0-7.1
+    - actual:
+        - ios 8.0
+      expected:
+        - ios_saf 8
+- description: supports Safari TP
+  assertions:
+    - actual:
+        - safari tp
+      expected:
+        - safari TP
+    - actual:
+        - Safari TP
+      expected:
+        - safari TP
+- description: supports Can I Use cutted versions
+  assertions:
+    - actual:
+        - and_uc 10
+      expected: 1
+- description: supports Can I Use missing mobile versions
+  assertions:
+    - actual:
+        - chromeandroid 53
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - and_chr 53
+    - actual:
+        - and_ff 60
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - and_ff 60
+    - actual:
+        - ie_mob 9
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - ie_mob 9
+    - actual:
+        - op_mob 30
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - op_mob 30
+    - actual:
+        - chromeandroid >= 52 and chromeandroid < 54
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - and_chr 53
+        - and_chr 52
+    - actual:
+        - and_chr 52-53
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - and_chr 53
+        - and_chr 52
+    - actual:
+        - android 4.4-38
+        - mobileToDesktop: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - android 38
+        - android 37
+        - android 36
+        - android 4.4.3-4.4.4
+        - android 4.4
+- description: missing mobile versions are not aliased by default
+  assertions: []
+- description: works for all browsers
+  assertions: []

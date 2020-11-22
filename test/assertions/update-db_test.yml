@@ -1,0 +1,16 @@
+- description: throws on missing package.json
+  assertions: []
+- description: throws on missing lockfile
+  assertions: []
+- description: updates caniuse-lite for npm
+  assertions: []
+- description: updates caniuse-lite without previous version
+  assertions: []
+- description: updates caniuse-lite for yarn
+  assertions: []
+- description: updates caniuse-lite for yarn with workspaces
+  assertions: []
+- description: shows target browser changes
+  assertions: []
+- description: shows error when browsers list can't be retrieved
+  assertions: []

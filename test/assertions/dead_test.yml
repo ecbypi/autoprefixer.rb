@@ -1,0 +1,13 @@
+- description: selects dead browsers by keywords
+  assertions:
+    - actual:
+        - dead
+      expected: ie 10
+- description: selects dead browsers case insensitive
+  assertions:
+    - actual:
+        - Dead
+      expected:
+        arguments:
+          - dead
+        function: browserslist

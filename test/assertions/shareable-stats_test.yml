@@ -1,0 +1,55 @@
+- description: takes stats from shareable config
+  assertions:
+    - actual:
+        - '> 5% in browserslist-config-test1 stats'
+      expected:
+        - chrome 56
+- description: takes stats and queries from shareable config
+  assertions:
+    - actual:
+        - extends browserslist-config-test2
+      expected:
+        - ie 11
+- description: works with non-prefixed stats with dangerousExtend
+  assertions:
+    - actual:
+        - - '> 5% in pkg stats'
+        - dangerousExtend: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        - chrome 78
+- description: handles scoped stats with a dot in the name
+  assertions:
+    - actual:
+        - - < 5% in @example.com/browserslist-config stats
+      expected:
+        - ie 11
+- description: handles file in scoped stats
+  assertions:
+    - actual:
+        - - '>= 5% in @scope/browserslist-config/ie stats'
+      expected:
+        - ie 11
+- description: handles file-less scoped stats
+  assertions:
+    - actual:
+        - - <= 5% in @scope/browserslist-config stats
+      expected:
+        - ie 11
+- description: handles scoped stats
+  assertions:
+    - actual:
+        - - '> 5% in @scope/browserslist-config-test stats'
+      expected:
+        - ie 11
+- description: ignores passed stats
+  assertions: []
+- description: ignores environment variable stats
+  assertions: []
+- description: throws when stats does not have browserslist-config- prefix
+  assertions: []
+- description: throws when stats has dot in path
+  assertions: []
+- description: throws when stats has node_modules in path
+  assertions: []
+- description: throw if stats undefined
+  assertions: []

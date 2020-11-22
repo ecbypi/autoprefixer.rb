@@ -1,0 +1,74 @@
+- description: throws error on invalid file
+  assertions: []
+- description: takes stats file from environment variable
+  assertions:
+    - actual:
+        - '> 10% in my stats'
+      expected:
+        - ie 11
+- description: takes stats by path
+  assertions:
+    - actual:
+        - '> 10% in my stats'
+        - stats: CUSTOM_STATS
+      expected:
+        - ie 11
+- description: selects popularity by more or equal
+  assertions:
+    - actual:
+        - '>= 5.3% in my stats'
+        - stats: CUSTOM_STATS
+      expected:
+        - ie 11
+        - ie 10
+- description: selects browsers by unpopularity
+  assertions:
+    - actual:
+        - < 0.5% in my stats
+        - stats: CUSTOM_STATS
+      expected:
+        - chrome 34
+        - ie 8
+- description: selects unpopularity by less or equal
+  assertions:
+    - actual:
+        - <= 2.3% in my stats
+        - stats: CUSTOM_STATS
+      expected:
+        - chrome 36
+        - chrome 35
+        - chrome 34
+        - ie 9
+        - ie 8
+- description: accepts non-space query
+  assertions:
+    - actual:
+        - '>10% in my stats'
+        - stats: CUSTOM_STATS
+      expected:
+        - ie 11
+- description: takes stats from usage data object
+  assertions:
+    - actual:
+        - '> 10% in my stats'
+        - stats: data
+      expected:
+        - ie 11
+- description: works alongside global usage query
+  assertions: []
+- description: takes stats from browserslist-stats.json
+  assertions:
+    - actual:
+        - '> 5% in my stats'
+        - path: STATS
+      expected:
+        - ie 8
+- description: normalizes versions
+  assertions:
+    - actual:
+        - - '> 3% in my stats'
+          - not and_chr > 0
+        - stats: ANDROID
+      expected: []
+- description: throws error on no stats
+  assertions: []

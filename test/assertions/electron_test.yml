@@ -1,0 +1,71 @@
+- description: converts Electron to Chrome
+  assertions:
+    - actual:
+        - electron 1.1
+      expected:
+        - chrome 50
+- description: supports Electron Patch versions to Chrome
+  assertions:
+    - actual:
+        - electron 4.0.4
+      expected:
+        - chrome 69
+- description: supports case insensitive Electron name
+  assertions:
+    - actual:
+        - Electron 1.1
+      expected:
+        - chrome 50
+- description: throws on unknown Electron version
+  assertions: []
+- description: converts Electron to Chrome in ranges
+  assertions:
+    - actual:
+        - electron 0.36-1.2
+      expected:
+        - chrome 51
+        - chrome 50
+        - chrome 49
+        - chrome 47
+- description: ignores case in Electron ranges
+  assertions:
+    - actual:
+        - Electron 0.37-1.0
+      expected:
+        - chrome 49
+- description: supports patch versions in Electron ranges
+  assertions:
+    - actual:
+        - Electron 0.37.5-1.0.3
+      expected:
+        - chrome 49
+- description: throws on unknown Electron range version
+  assertions: []
+- description: converts Electron versions to Chrome
+  assertions:
+    - actual:
+        - electron <= 0.21
+      expected:
+        - chrome 41
+        - chrome 39
+- description: ignores case in Electron versions
+  assertions:
+    - actual:
+        - Electron < 0.21
+      expected:
+        - chrome 39
+- description: converts Electron patch versions to Chrome
+  assertions:
+    - actual:
+        - Electron < 0.21.5
+      expected:
+        - chrome 39
+- description: supports last versions for Electron
+  assertions: []
+- description: supports last major versions for Electron
+  assertions: []
+- description: supports unreleased versions for Electron
+  assertions:
+    - actual:
+        - unreleased Electron versions
+      expected: 0

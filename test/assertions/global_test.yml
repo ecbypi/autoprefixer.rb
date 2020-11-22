@@ -1,0 +1,57 @@
+- description: selects browsers by popularity
+  assertions:
+    - actual:
+        - '> 10%'
+      expected:
+        - ie 11
+        - ie 10
+- description: selects popularity by more or equal
+  assertions:
+    - actual:
+        - '>= 5%'
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+- description: selects browsers by unpopularity
+  assertions:
+    - actual:
+        - < 5%
+      expected:
+        - ie 8
+- description: selects unpopularity by less or equal
+  assertions:
+    - actual:
+        - <= 5%
+      expected:
+        - ie 9
+        - ie 8
+- description: accepts non-space query
+  assertions:
+    - actual:
+        - '>10%'
+      expected:
+        - ie 11
+        - ie 10
+- description: works with float
+  assertions:
+    - actual:
+        - '> 10.2%'
+      expected:
+        - ie 11
+- description: works with float that has a leading dot
+  assertions:
+    - actual:
+        - '> .2%'
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+        - ie 8
+- description: allows omission of the space between the > and the percentage
+  assertions:
+    - actual:
+        - '>10%'
+      expected:
+        - ie 11
+        - ie 10

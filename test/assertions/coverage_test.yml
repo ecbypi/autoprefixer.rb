@@ -1,0 +1,26 @@
+- description: returns browsers coverage
+  assertions: []
+- description: returns zero coverage on empty browsers
+  assertions: []
+- description: returns zero coverage on missed data
+  assertions: []
+- description: returns usage in specified country
+  assertions: []
+- description: accepts country in any case
+  assertions: []
+- description: accepts mystats to load from custom stats
+  assertions: []
+- description: accepts mystats to load from custom stats with dataByBrowser
+  assertions: []
+- description: throws when no custom stats
+  assertions: []
+- description: loads country usage data from Can I Use
+  assertions: []
+- description: loads continents usage data from Can I Use
+  assertions: []
+- description: fixes statistics of 0 version
+  assertions: []
+- description: fixes statistics of all version
+  assertions: []
+- description: supports custom statistics
+  assertions: []

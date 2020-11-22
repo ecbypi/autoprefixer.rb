@@ -1,0 +1,24 @@
+- description: selects unreleased versions of each browser
+  assertions:
+    - actual:
+        - unreleased versions
+      expected:
+        - chrome 40
+        - edge 13
+- description: selects unreleased versions of specific browser
+  assertions:
+    - actual:
+        - unreleased Edge versions
+      expected:
+        - edge 13
+- description: is case insensitive
+  assertions:
+    - actual:
+        - Unreleased Versions
+      expected:
+        - chrome 40
+        - edge 13
+    - actual:
+        - Unreleased Chrome versions
+      expected:
+        - chrome 40

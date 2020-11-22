@@ -1,0 +1,8 @@
+- description: does not print warning
+  assertions: []
+- description: shows warning
+  assertions: []
+- description: hides warning on request
+  assertions: []
+- description: shows warning only once
+  assertions: []

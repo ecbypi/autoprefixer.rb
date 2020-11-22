@@ -1,0 +1,61 @@
+- description: selects browsers by popularity
+  assertions:
+    - actual:
+        - '> 10% in US'
+      expected:
+        - ie 11
+        - ie 10
+- description: selects popularity by more or equal
+  assertions:
+    - actual:
+        - '>= 5% in US'
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+- description: selects browsers by unpopularity
+  assertions:
+    - actual:
+        - < 5% in US
+      expected:
+        - ie 8
+- description: selects unpopularity by less or equal
+  assertions:
+    - actual:
+        - <= 5% in US
+      expected:
+        - ie 9
+        - ie 8
+- description: works with float
+  assertions:
+    - actual:
+        - '> 10.2% in US'
+      expected:
+        - ie 11
+- description: works with float that has a leading dot
+  assertions:
+    - actual:
+        - '> .2% in US'
+      expected:
+        - ie 11
+        - ie 10
+        - ie 9
+        - ie 8
+- description: fixes country case
+  assertions:
+    - actual:
+        - '> 10.2% in us'
+      expected:
+        - ie 11
+- description: loads country from Can I Use
+  assertions: []
+- description: loads continents from Can I Use
+  assertions: []
+- description: allows omission of the space between the > and the percentage
+  assertions: []
+- description: normalize incorrect caniuse versions for and_*
+  assertions:
+    - actual:
+        - '> 50% in XX'
+      expected:
+        - and_chr 80

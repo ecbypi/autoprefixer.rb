@@ -1,0 +1,14 @@
+- description: load features from Can I Use
+  assertions: []
+- description: selects browsers by feature
+  assertions:
+    - actual:
+        - supports rtcpeerconnection
+      expected:
+        - and_chr 81
+- description: selects browsers by feature with dashes in its name
+  assertions:
+    - actual:
+        - supports arrow-functions
+      expected:
+        - and_chr 81

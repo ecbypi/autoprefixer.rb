@@ -1,0 +1,29 @@
+- description: works without path
+  assertions:
+    - actual:
+        - null
+      expected:
+        arguments:
+          - defaults
+        function: browserslist
+- description: works with input file without path
+  assertions:
+    - actual:
+        - null
+        - path: !<tag:yaml.org,2002:js/undefined> ''
+      expected:
+        arguments:
+          - defaults
+        function: browserslist
+- description: throws on sharable config
+  assertions: []
+- description: throws on country statistics
+  assertions: []
+- description: throws on feature statistics
+  assertions: []
+- description: throws on config path
+  assertions: []
+- description: has config methods
+  assertions: []
+- description: supports current node version
+  assertions: []

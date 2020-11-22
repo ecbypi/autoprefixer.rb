@@ -1,0 +1,32 @@
+- description: selects versions of browser
+  assertions:
+    - actual:
+        - last 2 ie versions
+      expected:
+        - ie 11
+        - ie 10
+- description: does not include unreleased versions
+  assertions: []
+- description: supports pluralization
+  assertions:
+    - actual:
+        - last 1 ie version
+      expected:
+        - ie 11
+- description: has case insensitive aliases
+  assertions:
+    - actual:
+        - Last 01 Explorer Version
+      expected:
+        - ie 11
+- description: has special logic for android
+  assertions:
+    - actual:
+        - last 4 android versions
+      expected:
+        - android 67
+    - actual:
+        - last 31 android versions
+      expected:
+        - android 67
+        - android 4.4.3-4.4.4

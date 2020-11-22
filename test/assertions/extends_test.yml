@@ -1,0 +1,36 @@
+- description: uses package
+  assertions: []
+- description: uses file in package
+  assertions: []
+- description: works with non-prefixed package with dangerousExtend
+  assertions: []
+- description: supports BROWSERSLIST_DANGEROUS_EXTEND
+  assertions: []
+- description: handles scoped packages
+  assertions: []
+- description: handles scoped packages with a dot in the name
+  assertions: []
+- description: handles file in scoped packages
+  assertions: []
+- description: handles file-less scoped packages
+  assertions: []
+- description: recursively imports configs
+  assertions: []
+- description: handles relative queries with local overrides
+  assertions: []
+- description: throws on external package with empty export
+  assertions: []
+- description: throws when package does not have browserslist-config- prefix
+  assertions: []
+- description: throws when extends package has dot in path
+  assertions: []
+- description: throws when extends package has node_modules in path
+  assertions: []
+- description: works with shareable config doesn't contains defaults env
+  assertions: []
+- description: works with shareable config contains env
+  assertions: []
+- description: works with shareable config contains defaults env
+  assertions: []
+- description: throws when external package resolve to nullable
+  assertions: []
